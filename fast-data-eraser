@@ -1,0 +1,59 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+"""
+Fast Data Eraser
+
+Secure wiper/remover for files & directories written in Python 2.x.
+Running on Unix-like OS only.
+Author: Dmitry Fomin
+License: MIT
+"""
+
+import sys, subprocess
+from os import path
+from scandir import scandir
+
+class FastDataEraser:
+    def wipe_dir(self, file_or_dir):
+        # wiping the folder recursively
+        for entry in scandir(file_or_dir):
+            if path.isdir(entry.path):
+                 self.wipe_dir(entry.path)
+            else:
+                 self.wipe_file(entry.path)
+
+
+        return subprocess.call(['wipe', '-rfc', file_or_dir])
+
+
+    def wipe_file(self, filepath):
+        # wiping the file
+        subprocess.call([
+            'shred', 
+            '-vzun34',
+            filepath
+            ])
+
+
+
+def main():
+    eraser = FastDataEraser()
+    if len(sys.argv) > 1:
+        path.abspath(sys.argv[1])
+        if path.isdir(sys.argv[1]):
+            eraser.wipe_dir(sys.argv[1])
+            print('Directory ' +  sys.argv[1] + ' wiped successfully!')
+        elif path.isfile(sys.argv[1]):
+            eraser.wipe_file(sys.argv[1])
+            print(sys.argv[1] + ' removed successfully!')
+        else:
+            print("ERROR! Can't open the path")
+    else:
+        # help
+        print('Usage: fast-data-eraser [PATH TO THE FILE OR DIR]')
+
+
+if __name__ == '__main__':
+    main()
+
