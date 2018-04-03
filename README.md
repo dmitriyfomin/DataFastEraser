@@ -15,6 +15,7 @@ $ fast-data-eraser [PATH TO THE FILE OR DIR]
 ```
 
 ## Requirements
+* python-scandir
 * wipe
 
 ## More info
