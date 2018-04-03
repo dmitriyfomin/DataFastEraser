@@ -31,7 +31,7 @@ class FastDataEraser:
         # wiping the file
         subprocess.call([
             'shred', 
-            '-vzun34',
+            '-vfzun34',
             filepath
             ])
 
